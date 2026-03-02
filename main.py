@@ -31,7 +31,7 @@ app.add_middleware(
     allow_origins=[
         "http://localhost:5173",
         "http://127.0.0.1:5173",
-        # "https://YOUR-PRODUCTION-DOMAIN"  # add when you deploy same-domain
+        "https://gokul6638.github.io/logistics-apply-frontend"
     ],
     allow_credentials=True,
     allow_methods=["*"],
