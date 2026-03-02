@@ -31,8 +31,13 @@ app = FastAPI(
 origins = [
     "http://localhost:5173",
     "http://127.0.0.1:5173",
+
+    # GitHub Pages (keep if you still want it to work)
     "https://gokul6638.github.io",
     "https://gokul6638.github.io/logistics-apply-frontend",
+
+    # Custom domain (THIS fixes your current error)
+    "https://apply.gokulravikumar.com",
 ]
 
 app.add_middleware(
