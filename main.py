@@ -25,14 +25,19 @@ app = FastAPI(
     swagger_ui_parameters={"syntaxHighlight": False},
 )
 
+# -------------------------
 # CORS
+# -------------------------
+origins = [
+    "http://localhost:5173",
+    "http://127.0.0.1:5173",
+    "https://gokul6638.github.io",
+    "https://gokul6638.github.io/logistics-apply-frontend",
+]
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=[
-        "http://localhost:5173",
-        "http://127.0.0.1:5173",
-        "https://gokul6638.github.io/logistics-apply-frontend"
-    ],
+    allow_origins=origins,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -60,7 +65,6 @@ def get_settings(
 ):
     return crud.get_or_create_settings(db)
 
-
 @app.put("/api/settings", response_model=schemas.Settings)
 def update_settings(
     payload: schemas.SettingsUpdate,
@@ -76,12 +80,11 @@ def update_settings(
 def read_jobs(
     skip: int = 0,
     limit: int = 200,
-    posted_within: Optional[str] = None,  # "24h" | "1d" | "1w"
+    posted_within: Optional[str] = None,
     db: Session = Depends(get_db),
     _user=Depends(get_current_user),
 ):
     return crud.get_jobs(db, skip=skip, limit=limit, posted_within=posted_within)
-
 
 @app.post("/api/jobs/{job_id}/save")
 def toggle_save_job(
@@ -93,7 +96,6 @@ def toggle_save_job(
     if not job:
         raise HTTPException(status_code=404, detail="Job not found")
     return {"ok": True, "saved": job.saved}
-
 
 @app.post("/api/jobs/{job_id}/applied")
 def mark_job_applied(
